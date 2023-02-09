@@ -69,7 +69,7 @@ const App = () => {
         <button>find</button>
       </form>
 
-      {<Country country={country} />}
+      {!name ? null : <Country country={country} />}
     </div>
   );
 };
