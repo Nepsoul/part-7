@@ -17,19 +17,16 @@ const useField = (type) => {
 const useCountry = (name) => {
   const [country, setCountry] = useState(null);
 
-  console.log(name, "name");
+  //console.log(name, "name");
+
   useEffect(() => {
-    axios.get("https://restcountries.com/v3.1/all").then((response) => {
-      const filteredCountry = response.data.find(
-        (state) => state.name.common.toLowerCase() === name.toLowerCase()
-      );
-
-      console.log(filteredCountry, "filteredcountry");
-
-      if (filteredCountry) {
-        setCountry(filteredCountry);
-      }
-    });
+    if (name)
+      axios
+        .get(`https://restcountries.com/v3.1/name/${name}`)
+        .then((response) => {
+          setCountry(...response.data);
+        })
+        .catch((error) => setCountry(null));
   }, [name]);
 
   return country;
@@ -64,7 +61,7 @@ const App = () => {
     setName(nameInput.value);
   };
 
-  console.log(country, "country");
+  // console.log(country, "country");
   return (
     <div>
       <form onSubmit={fetch}>
@@ -72,7 +69,7 @@ const App = () => {
         <button>find</button>
       </form>
 
-      <Country country={country} />
+      {<Country country={country} />}
     </div>
   );
 };
