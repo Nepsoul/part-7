@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import noteService from "./service/noteApi";
 
 const useField = (type) => {
   const [value, setValue] = useState("");
@@ -13,6 +14,12 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resource, setResource] = useState([]);
 
+  useEffect(() => {
+    noteService.getAll(baseUrl).then((data) => {
+      //console.log(data, "data");
+      setResource(data);
+    });
+  },[]);
   const create = (resource) => {};
 
   const service = {
@@ -27,8 +34,8 @@ const App = () => {
   const name = useField("text");
   const number = useField("text");
 
-  const [notes, noteService] = useResource("http//localhost/:3005/notes");
-  const [persons, personService] = useResource("http//localhost/:3005/persons");
+  const [notes, noteService] = useResource("http://localhost:3005/notes");
+  const [persons, personService] = useResource("http://localhost:3005/persons");
   const handleNoteSubmit = (event) => {
     event.prevent.default();
     noteService.create({ content: content.value });
@@ -52,11 +59,9 @@ const App = () => {
 
       <h2>persons</h2>
       <form onSubmit={handlePersonSubmit}>
-        name
-        <input {...name} />
+        name <input {...name} />
         <br />
-        number
-        <input {...number} />
+        number <input {...number} />
         <button>create</button>
       </form>
       {persons.map((n) => (
