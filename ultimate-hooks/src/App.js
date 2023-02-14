@@ -21,7 +21,9 @@ const useResource = (baseUrl) => {
   }, [baseUrl]);
 
   const create = (resources) => {
-    console.log(resource, "resource");
+    //console.log(resource, "resource");
+    //console.log(resources, "resources");
+    //console.log(baseUrl, "baseUrl");
     noteService.create(resources, baseUrl).then((response) => {
       setResource(resource.concat(response));
       //setResource([...resource,response]);
@@ -41,6 +43,7 @@ const App = () => {
   const number = useField("text");
 
   const [notes, noteService] = useResource("http://localhost:3005/notes");
+  //console.log(noteService, "noteService");
   const [persons, personService] = useResource("http://localhost:3005/persons");
   const handleNoteSubmit = (event) => {
     event.preventDefault();
